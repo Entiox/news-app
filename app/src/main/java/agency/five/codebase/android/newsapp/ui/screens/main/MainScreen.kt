@@ -6,16 +6,21 @@ import agency.five.codebase.android.newsapp.data.network.ConnectionTracker.regis
 import agency.five.codebase.android.newsapp.destination.Destination
 import agency.five.codebase.android.newsapp.destination.PreferencesDestination
 import agency.five.codebase.android.newsapp.notification.channel
+import agency.five.codebase.android.newsapp.notification.hasPermissionForNotifications
 import agency.five.codebase.android.newsapp.ui.screens.explore.ExploreRoute
 import agency.five.codebase.android.newsapp.ui.screens.no_connection.NoConnectionRoute
 import agency.five.codebase.android.newsapp.ui.screens.search.SearchRoute
 import agency.five.codebase.android.newsapp.ui.screens.settings.SettingsRoute
 import agency.five.codebase.android.newsapp.ui.theme.Blue
 import agency.five.codebase.android.newsapp.ui.theme.spacing
+import android.Manifest
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -41,6 +46,12 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun MainScreen() {
     val context = LocalContext.current
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = {
+            hasPermissionForNotifications.value = it
+        }
+    )
     val connectionState by ConnectionTracker.connectionState.collectAsState()
     registerConnection(context)
     val notificationManager =
@@ -94,6 +105,9 @@ fun MainScreen() {
                             },
                             viewModel = getViewModel()
                         )
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                        }
                     }
                     composable(Destination.SearchDestination.route) {
                         BackHandler(enabled = isDrawerOpen.value) {

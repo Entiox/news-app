@@ -6,13 +6,10 @@ import agency.five.codebase.android.newsapp.modules.newsRepositoryModule
 import agency.five.codebase.android.newsapp.modules.newsServiceModule
 import agency.five.codebase.android.newsapp.modules.screens.*
 import android.app.Application
-import android.util.Log
-import io.ktor.utils.io.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class NewsApp : Application() {
-
     override fun onCreate() {
         super.onCreate()
         instance = this

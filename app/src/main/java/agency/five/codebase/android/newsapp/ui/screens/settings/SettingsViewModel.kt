@@ -21,6 +21,14 @@ private const val NOTIFICATION_SCHEDULER_WORK_NAME = "notification-scheduler"
 
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val notificationWorkerRequest =
+        PeriodicWorkRequestBuilder<NotificationWorker>(
+            repeatInterval = 3,
+            repeatIntervalTimeUnit = TimeUnit.DAYS,
+            flexTimeInterval = 10,
+            flexTimeIntervalUnit = TimeUnit.MINUTES
+        ).build()
+
     val notificationPreferences =
         getApplication<Application>().applicationContext.dataStore.data
             .map { preferences ->
@@ -50,14 +58,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             }
         }
     }
-
-    private val notificationWorkerRequest =
-        PeriodicWorkRequestBuilder<NotificationWorker>(
-            repeatInterval = 3,
-            repeatIntervalTimeUnit = TimeUnit.DAYS,
-            flexTimeInterval = 10,
-            flexTimeIntervalUnit = TimeUnit.MINUTES
-        ).build()
 
     fun togglePreference(enabled: Boolean) {
         viewModelScope.launch {

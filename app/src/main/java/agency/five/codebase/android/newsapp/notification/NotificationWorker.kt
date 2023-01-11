@@ -15,7 +15,9 @@ class NotificationWorker(private val appContext: Context, workerParams: WorkerPa
     CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
-        createNotification()
+        if (hasPermissionForNotifications.value) {
+            createNotification()
+        }
         return Result.success()
     }
 
@@ -31,7 +33,7 @@ class NotificationWorker(private val appContext: Context, workerParams: WorkerPa
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
             )
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManagerCompat.from(appContext).notify(
                 1, NotificationCompat.Builder(appContext, "NEWS_01")
                     .setSmallIcon(R.drawable.ic_newspaper)
@@ -41,8 +43,7 @@ class NotificationWorker(private val appContext: Context, workerParams: WorkerPa
                     .setContentIntent(pendingIntent)
                     .build()
             )
-        }
-        else {
+        } else {
             NotificationManagerCompat.from(appContext).notify(
                 1, NotificationCompat.Builder(appContext)
                     .setSmallIcon(R.drawable.ic_newspaper)
