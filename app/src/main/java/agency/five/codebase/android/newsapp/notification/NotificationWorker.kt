@@ -41,6 +41,7 @@ class NotificationWorker(private val appContext: Context, workerParams: WorkerPa
                     .setContentText("Enter NewsApp to keep up with variety of news.")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
                     .build()
             )
         } else {
@@ -51,6 +52,7 @@ class NotificationWorker(private val appContext: Context, workerParams: WorkerPa
                     .setContentText("Enter NewsApp to keep up with variety of news.")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
                     .build()
             )
         }
