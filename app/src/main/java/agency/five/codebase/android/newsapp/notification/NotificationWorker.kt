@@ -11,8 +11,8 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 
-private const val newsContentTitle = "Check out news"
-private const val newsContentDescription = "Enter NewsApp to keep up with variety of news."
+private const val newsNotificationContentTitle = "Check out news"
+private const val newsNotificationContentText = "Enter NewsApp to keep up with variety of news."
 
 class NotificationWorker(private val appContext: Context, workerParams: WorkerParameters) :
     CoroutineWorker(appContext, workerParams) {
@@ -40,8 +40,8 @@ class NotificationWorker(private val appContext: Context, workerParams: WorkerPa
             NotificationManagerCompat.from(appContext).notify(
                 1, NotificationCompat.Builder(appContext, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_newspaper)
-                    .setContentTitle(newsContentTitle)
-                    .setContentText(newsContentDescription)
+                    .setContentTitle(newsNotificationContentTitle)
+                    .setContentText(newsNotificationContentText)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -51,8 +51,8 @@ class NotificationWorker(private val appContext: Context, workerParams: WorkerPa
             NotificationManagerCompat.from(appContext).notify(
                 1, NotificationCompat.Builder(appContext)
                     .setSmallIcon(R.drawable.ic_newspaper)
-                    .setContentTitle(newsContentTitle)
-                    .setContentText(newsContentDescription)
+                    .setContentTitle(newsNotificationContentTitle)
+                    .setContentText(newsNotificationContentText)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
