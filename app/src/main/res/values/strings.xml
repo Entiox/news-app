@@ -35,4 +35,5 @@
     <string name="title">News searcher</string>
     <string name="add_preference_empty_list_error">You must select at least one option for each category, country and language</string>
     <string name="no_internet_dialog">No internet connection is established</string>
+    <string name="no_results">No results found</string>
 </resources>

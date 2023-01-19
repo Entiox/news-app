@@ -1,4 +1,4 @@
-package agency.five.codebase.android.newsapp.data.network
+package agency.five.codebase.android.newsapp.network
 
 import android.content.Context
 import android.net.ConnectivityManager

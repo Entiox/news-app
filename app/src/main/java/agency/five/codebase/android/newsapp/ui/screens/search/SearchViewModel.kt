@@ -58,6 +58,14 @@ class SearchViewModel(
         initialValue = NewsViewState(emptyList())
     )
 
+    val isSearchEmpty: StateFlow<Boolean> = newsViewState.map {
+        it.newsCardViewStates.isEmpty()
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(1000L),
+        initialValue = false
+    )
+
     var isFilterEnabled: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     var isAddPreferenceButtonShown: MutableStateFlow<Boolean> = MutableStateFlow(false)

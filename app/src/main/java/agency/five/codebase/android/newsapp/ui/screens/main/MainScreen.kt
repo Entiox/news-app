@@ -1,8 +1,8 @@
 package agency.five.codebase.android.newsapp.ui.screens.main
 
 import agency.five.codebase.android.newsapp.R
-import agency.five.codebase.android.newsapp.data.network.ConnectionTracker
-import agency.five.codebase.android.newsapp.data.network.ConnectionTracker.registerConnection
+import agency.five.codebase.android.newsapp.network.ConnectionTracker
+import agency.five.codebase.android.newsapp.network.ConnectionTracker.registerConnection
 import agency.five.codebase.android.newsapp.destination.Destination
 import agency.five.codebase.android.newsapp.destination.PreferencesDestination
 import agency.five.codebase.android.newsapp.notification.channel
@@ -17,7 +17,6 @@ import android.Manifest
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts

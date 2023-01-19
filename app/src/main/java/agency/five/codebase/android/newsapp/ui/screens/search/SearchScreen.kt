@@ -34,6 +34,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -51,12 +52,14 @@ fun SearchRoute(
     val areLanguagesExpanded by viewModel.areLanguagesExpanded.collectAsState()
     val preferenceCardViewState by viewModel.preferenceViewState.collectAsState()
     val newsViewState by viewModel.newsViewState.collectAsState()
+    val isSearchEmpty by viewModel.isSearchEmpty.collectAsState()
 
     SearchScreen(
         modifier = modifier,
         preferenceCardViewState = preferenceCardViewState,
         newsViewState = newsViewState,
         isFilterEnabled = isFilterEnabled,
+        isSearchEmpty = isSearchEmpty,
         isAddPreferenceButtonShown = isAddPreferenceButtonShown,
         areCategoriesExpanded = areCategoriesExpanded,
         areCountriesExpanded = areCountriesExpanded,
@@ -100,6 +103,7 @@ fun SearchScreen(
     preferenceCardViewState: PreferenceCardViewState,
     newsViewState: NewsViewState,
     isFilterEnabled: Boolean,
+    isSearchEmpty: Boolean,
     isAddPreferenceButtonShown: Boolean,
     areCategoriesExpanded: Boolean,
     areCountriesExpanded: Boolean,
@@ -221,18 +225,37 @@ fun SearchScreen(
             item {
                 Spacer(modifier = Modifier.height(MaterialTheme.spacing.default))
             }
-            items(newsViewState.newsCardViewStates) {
-                NewsCard(
-                    newsCardState = it, modifier = Modifier
-                        .padding(
-                            horizontal = MaterialTheme.spacing.veryLarge,
-                            vertical = MaterialTheme.spacing.large
+            if (!isSearchEmpty) {
+                items(newsViewState.newsCardViewStates) {
+                    NewsCard(
+                        newsCardState = it, modifier = Modifier
+                            .padding(
+                                horizontal = MaterialTheme.spacing.veryLarge,
+                                vertical = MaterialTheme.spacing.large
+                            )
+                            .shadow(
+                                elevation = MaterialTheme.spacing.veryLarge,
+                                shape = MaterialTheme.shapes.medium
+                            )
+                    )
+                }
+            } else {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .padding(
+                                top = MaterialTheme.spacing.sectionMedium,
+                                bottom = MaterialTheme.spacing.sectionVeryLarge
+                            )
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.no_results),
+                            style = MaterialTheme.typography.h1,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxSize()
                         )
-                        .shadow(
-                            elevation = MaterialTheme.spacing.veryLarge,
-                            shape = MaterialTheme.shapes.medium
-                        )
-                )
+                    }
+                }
             }
             item {
                 Spacer(modifier = Modifier.height(MaterialTheme.spacing.sectionMedium))
@@ -270,6 +293,7 @@ fun SearchPreview() {
                 areCategoriesExpanded = false,
                 areCountriesExpanded = false,
                 areLanguagesExpanded = false,
+                isSearchEmpty = false,
                 toggleCategories = { },
                 toggleCountries = { },
                 toggleLanguages = { },
